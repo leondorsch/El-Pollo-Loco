@@ -23,7 +23,7 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy)=>{
                 if(this.character.isColliding(enemy)){
-                    console.log('Collision with character', enemy);
+                    this.character.hit();
                 }
             })
         }, 1000);
@@ -36,8 +36,10 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
+        // this.addObjectsToMap(this.level.enemies);
+        // this.addObjectsToMap(this.statusbar)
 
         this.ctx.translate(-this.camera_x, 0)
 
