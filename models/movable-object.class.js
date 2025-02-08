@@ -17,7 +17,11 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) { //Throwable Objects fall
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
 
     isColliding(mo) {
@@ -36,10 +40,10 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isHurt(){
+    isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Difference in ms 
         timepassed = timepassed / 1000; //Difference in s
-        return timepassed < 1; 
+        return timepassed < 1;
     }
 
     isDead() {
