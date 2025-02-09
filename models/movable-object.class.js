@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    lastMovement = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -46,6 +47,12 @@ class MovableObject extends DrawableObject {
         return timepassed < 1;
     }
 
+    isStanding(){
+        let timepassed = new Date().getTime() - this.lastMovement;
+        timepassed = timepassed / 1000;
+        return timepassed > 10; 
+    }
+
     isDead() {
         return this.energy == 0;
     }
@@ -59,14 +66,17 @@ class MovableObject extends DrawableObject {
 
     moveRight() {
         this.x += this.speed;
+        this.lastMovement = new Date().getTime();
 
     }
 
     moveLeft() {
         this.x -= this.speed;
+        this.lastMovement = new Date().getTime();
     }
 
     jump() {
         this.speedY = 30;
+        this.lastMovement = new Date().getTime();
     }
 }
