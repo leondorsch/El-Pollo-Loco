@@ -9,6 +9,8 @@ class World {
     statusBarBottles = new StatusBarBottles();
     statusBarCoins = new StatusBarCoins();
     throwableObjects = [];
+    coins = [];
+    bottles = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -30,14 +32,21 @@ class World {
         }, 200);
     }
 
-    checkThrowObjects(){
-        if(this.keyboard.D){
+    checkThrowObjects() {
+        if (this.keyboard.D) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
 
     checkCollisions() {
+        this.collisionCharacterEnemies();
+        this.collisionCharacterCoins();
+        this.collisionCharacterBottles();
+        
+    }
+
+    collisionCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -45,6 +54,27 @@ class World {
             }
         })
     }
+
+    collisionCharacterCoins() {
+        this.level.coins = this.level.coins.filter((coin) => {
+            if (this.character.isColliding(coin)) {
+                this.statusBarCoins.setPercentage(this.character.energy)
+                return false; 
+            }
+            return true;
+        });
+    }
+
+    collisionCharacterBottles() {
+        this.level.bottles = this.level.bottles.filter((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                this.statusBarBottles.setPercentage(this.character.energy)
+                return false; 
+            }
+            return true;
+        });
+    }
+    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -60,7 +90,7 @@ class World {
         this.addToMap(this.statusBarCoins);
         this.ctx.translate(this.camera_x, 0)
 
-        
+
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
