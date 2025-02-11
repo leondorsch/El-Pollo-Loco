@@ -93,8 +93,7 @@ class World {
             return true;
         });
     }
-
-
+    
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
