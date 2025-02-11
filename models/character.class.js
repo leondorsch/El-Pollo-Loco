@@ -1,4 +1,6 @@
 class Character extends MovableObject {
+    footsteps_sound = new Audio('audio/footsteps.mp3');
+    jump_sound = new Audio('audio/jump.mp3');
     height = 230;
     y = 60;
     speed = 10;
@@ -6,7 +8,7 @@ class Character extends MovableObject {
         top: 120,
         bottom: 30,
         left: 40,
-        right: 30 
+        right: 30
     }
 
     IMAGES_WALKING = [
@@ -91,20 +93,23 @@ class Character extends MovableObject {
         }, 200);
 
         setInterval(() => {
-            // this.walking_sound.pause();
+            this.footsteps_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
                 this.moveRight();
-                // this.walking_sound.play();
+                this.footsteps_sound.play();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.otherDirection = true;
                 this.moveLeft();
-                // this.walking_sound.play();
+                this.footsteps_sound.play();
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.footsteps_sound.pause();
                 this.jump();
+                this.jump_sound.play();
+                this.footsteps_sound.pause();
             }
             this.world.camera_x = -this.x + 100;
 
@@ -122,6 +127,6 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 50);
+        }, 150);
     };
 }

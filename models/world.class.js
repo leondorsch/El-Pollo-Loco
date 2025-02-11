@@ -12,6 +12,9 @@ class World {
     throwableObjects = [];
     coins = [];
     bottles = [];
+    coin_sound = new Audio('audio/coin.mp3');
+    bottle_sound = new Audio('audio/bottle.mp3');
+    hurt_sound = new Audio('audio/hurt.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -46,6 +49,8 @@ class World {
     }
 
     checkCollisions() {
+        
+        this.collisionCharacterEnemiesFromTop();
         this.collisionCharacterEnemies();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
@@ -56,8 +61,17 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
+                this.hurt_sound.play();
                 this.statusBarHealth.setPercentage(this.character.energy);
                 console.log(this.character.energy)
+            }
+        })
+    }
+
+    collisionCharacterEnemiesFromTop() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isCollidingFromTop(enemy)) {
+                enemy.chickenDead(enemy);
             }
         })
     }
@@ -65,6 +79,7 @@ class World {
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
+                this.coin_sound.play();
                 this.coins.push(coin);
                 this.statusBarCoins.setPercentage(this.coins.length);
                 console.log(this.coins.length)
@@ -77,6 +92,7 @@ class World {
     collisionCharacterBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
+                this.bottle_sound.play();
                 this.bottles.push(bottle);
                 this.statusBarBottles.setPercentage(this.bottles.length);
                 return false;
@@ -84,7 +100,7 @@ class World {
             return true;
         });
     }
-    
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
