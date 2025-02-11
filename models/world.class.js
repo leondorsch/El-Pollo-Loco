@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    chicken = new Chicken();
     level = level1;
     ctx;
     canvas;
@@ -34,16 +35,22 @@ class World {
 
     checkThrowObjects() {
         if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+            if (this.bottles.length > 0) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(bottle);
+                this.bottles.pop(this.bottles);
+                this.statusBarBottles.setPercentage(this.bottles.length);
+            }
+
         }
     }
 
     checkCollisions() {
         this.collisionCharacterEnemies();
+        this.collisionCharacterEnemiesTop();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
-        
+
     }
 
     collisionCharacterEnemies() {
@@ -51,6 +58,15 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBarHealth.setPercentage(this.character.energy);
+                console.log(this.character.energy)
+            }
+        })
+    }
+
+    collisionCharacterEnemiesTop(){
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isCollidingFromTop(enemy)) {
+                this.chicken.enemyIsDead();
             }
         })
     }
@@ -58,8 +74,10 @@ class World {
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
-                this.statusBarCoins.setPercentage(this.character.energy)
-                return false; 
+                this.coins.push(coin);
+                this.statusBarCoins.setPercentage(this.coins.length);
+                console.log(this.coins.length)
+                return false;
             }
             return true;
         });
@@ -68,13 +86,14 @@ class World {
     collisionCharacterBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
-                this.statusBarBottles.setPercentage(this.character.energy)
-                return false; 
+                this.bottles.push(bottle);
+                this.statusBarBottles.setPercentage(this.bottles.length);
+                return false;
             }
             return true;
         });
     }
-    
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

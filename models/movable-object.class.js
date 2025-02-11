@@ -4,7 +4,6 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    lastHit = 0;
     lastMovement = 0;
     offset = {
         top: 0,
@@ -23,11 +22,11 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        if (this instanceof ThrowableObject) { //Throwable Objects fall
-            return true;
-        } else if(this instanceof Character) {
+        if (this instanceof ThrowableObject) {
+            return this.y < 360;
+        } else if (this instanceof Character) {
             return this.y < 180;
-        } else if(this instanceof smallChicken) {
+        } else if (this instanceof smallChicken) {
             return this.y < 360;
         }
     }
@@ -35,9 +34,17 @@ class MovableObject extends DrawableObject {
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x - mo.offset.left &&  // R -> L
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // T -> B
-            this.x +this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // B -> T
     }
+
+    isCollidingFromTop(mo) {
+    return (
+        this.isColliding(mo) && // Allgemeine Kollision prüfen
+        this.y + this.height - this.offset.bottom > mo.y + mo.offset.top // Nur wenn der Charakter von oben kommt
+    );
+}
+
 
     hit() {
         this.energy -= 5;
@@ -46,10 +53,6 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
-    }
-
-    collectCoin(coin) {
-        console.log(coin);
     }
 
     isHurt() {

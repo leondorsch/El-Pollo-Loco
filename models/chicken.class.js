@@ -31,5 +31,7 @@ class Chicken extends MovableObject {
         }, 100);
     };
 
-
+    enemyIsDead() {
+        this.y = 160
+    }
 }
