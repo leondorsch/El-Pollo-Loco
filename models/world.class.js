@@ -52,6 +52,7 @@ class World {
         
         this.collisionCharacterEnemiesFromTop();
         this.collisionCharacterEnemies();
+        // this.collisionCharacterEnemiesTop();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
 
@@ -68,6 +69,7 @@ class World {
         })
     }
 
+<<<<<<< HEAD
     collisionCharacterEnemiesFromTop() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidingFromTop(enemy)) {
@@ -75,6 +77,15 @@ class World {
             }
         })
     }
+=======
+    // collisionCharacterEnemiesTop(){
+    //     this.level.enemies.forEach((enemy) => {
+    //         if (this.character.isCollidingFromTop(enemy)) {
+    //             this.chicken.enemyIsDead();
+    //         }
+    //     })
+    // }
+>>>>>>> 042bc7ff0e88441c4b7d859104b913d6162c154e
 
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
