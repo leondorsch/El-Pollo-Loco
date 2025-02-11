@@ -85,7 +85,7 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);
-            if (this.isStanding()) {
+            if (this.isStanding() && !this.firstCharacterLoad) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
             }
         }, 200);

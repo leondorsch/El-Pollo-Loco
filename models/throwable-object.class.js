@@ -1,5 +1,5 @@
 class ThrowableObject extends MovableObject {
-    bottle = new Bottle ();
+    bottle = new Bottle();
     IMAGES_THROWING = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -16,8 +16,8 @@ class ThrowableObject extends MovableObject {
         this.width = 50;
         this.animate();
     }
-     rotateBottleInterval;
-     throwBottleInterval;
+    rotateBottleInterval;
+    throwBottleInterval;
 
     animate() {
         this.throw(100, 150);
@@ -31,8 +31,8 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.throwBottleInterval = setInterval(() => {
             if (this.y >= 360) {
-                clearInterval(this.throwBottleInterval); 
-                clearInterval(this.rotateBottleInterval); 
+                clearInterval(this.throwBottleInterval);
+                clearInterval(this.rotateBottleInterval);
                 setInterval(() => {
                     this.y = 360;
                     this.playAnimation(this.bottle.IMAGES_BOTTLES);

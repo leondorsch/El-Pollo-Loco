@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastMovement = 0;
+    firstCharacterLoad = true;
     offset = {
         top: 0,
         left: 0,
@@ -64,6 +65,9 @@ class MovableObject extends DrawableObject {
     isStanding() {
         let timepassed = new Date().getTime() - this.lastMovement;
         timepassed = timepassed / 1000;
+        setTimeout(() => {
+            this.firstCharacterLoad = false;
+        }, 10000);
         return timepassed > 10;
     }
 

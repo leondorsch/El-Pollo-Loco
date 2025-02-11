@@ -47,7 +47,6 @@ class World {
 
     checkCollisions() {
         this.collisionCharacterEnemies();
-        this.collisionCharacterEnemiesTop();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
 
@@ -59,14 +58,6 @@ class World {
                 this.character.hit();
                 this.statusBarHealth.setPercentage(this.character.energy);
                 console.log(this.character.energy)
-            }
-        })
-    }
-
-    collisionCharacterEnemiesTop(){
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isCollidingFromTop(enemy)) {
-                this.chicken.enemyIsDead();
             }
         })
     }
@@ -93,8 +84,7 @@ class World {
             return true;
         });
     }
-
-
+    
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
