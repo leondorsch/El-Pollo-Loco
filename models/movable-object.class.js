@@ -39,11 +39,11 @@ class MovableObject extends DrawableObject {
     }
 
     isCollidingFromTop(mo) {
-    return (
-        this.isColliding(mo) && // Allgemeine Kollision prüfen
-        this.y + this.height - this.offset.bottom > mo.y + mo.offset.top // Nur wenn der Charakter von oben kommt
-    );
-}
+        return (
+            this.isColliding(mo) && // Allgemeine Kollision prüfen
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top // Nur wenn der Charakter von oben kommt
+        );
+    }
 
 
     hit() {
