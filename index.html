@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -23,18 +24,28 @@
     <script src="models/level.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
-    
+
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
-    
+
 </head>
+
 <body onload="init()">
     <h1>El pollo loco</h1>
-
 
     <canvas id="canvas" width="720" height="480">
 
     </canvas>
-    
+    <div class="controls-container">
+        <div class="controls">
+            <span>Controls</span>
+            <p>Move: Arrow keys</p>
+            <p>Jump: Space</p>
+            <p>Throw bottle: D</p>
+        </div>
+    </div>
+
+
 </body>
+
 </html>

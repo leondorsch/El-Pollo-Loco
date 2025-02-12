@@ -32,4 +32,11 @@ class Chicken extends MovableObject {
             this.playAnimation(this.IMAGES_WALKING);
         }, 100);
     };
+
+    chickenDead(enemy) {
+        clearInterval(this.IntervalChickenMoveLeft);
+        clearInterval(this.IntervalChickenWalk);
+        enemy.loadImage(this.IMAGES_DEAD[0]);
+        enemy.speed = 0;
+    }
 }
