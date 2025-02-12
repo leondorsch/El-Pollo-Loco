@@ -47,7 +47,6 @@ class World {
 
     checkCollisions() {
         this.collisionCharacterEnemies();
-        // this.collisionCharacterEnemiesTop();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
 
@@ -62,14 +61,6 @@ class World {
             }
         })
     }
-
-    // collisionCharacterEnemiesTop(){
-    //     this.level.enemies.forEach((enemy) => {
-    //         if (this.character.isCollidingFromTop(enemy)) {
-    //             this.chicken.enemyIsDead();
-    //         }
-    //     })
-    // }
 
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
