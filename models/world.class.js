@@ -49,10 +49,8 @@ class World {
     }
 
     checkCollisions() {
-        
-        this.collisionCharacterEnemiesFromTop();
         this.collisionCharacterEnemies();
-        // this.collisionCharacterEnemiesTop();
+        this.collisionCharacterEnemiesFromTop();
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
 
