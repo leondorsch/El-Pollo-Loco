@@ -1,6 +1,8 @@
 class World {
     character = new Character();
     chicken = new Chicken();
+    bottle = new Bottle();
+    movableObject = new MovableObject();
     level = level1;
     ctx;
     canvas;
@@ -40,47 +42,55 @@ class World {
         if (this.keyboard.D) {
             if (this.bottles.length > 0) {
                 let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                console.log(bottle)
                 this.throwableObjects.push(bottle);
-                this.bottles.pop(this.bottles);
+                this.bottles.pop();
                 this.statusBarBottles.setPercentage(this.bottles.length);
             }
-
         }
     }
 
     checkCollisions() {
         this.collisionCharacterEnemies();
-<<<<<<< HEAD
-=======
-        this.collisionCharacterEnemiesFromTop();
->>>>>>> cc165f7834e87d0c4f51cb52d5f7a105afffb3d6
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
+        this.collisionEnemyBottles();
 
     }
 
     collisionCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.hurt_sound.play();
-                this.statusBarHealth.setPercentage(this.character.energy);
-                console.log(this.character.energy)
+                if (this.character.isAboveGround() && !enemy.isDead) {
+                    enemy.chickenDead(enemy);
+                    enemy.isDead = true;
+                } else if (!enemy.isDead) {
+                    this.character.hit();
+                    this.hurt_sound.play();
+                    this.statusBarHealth.setPercentage(this.character.energy);
+                }
             }
         })
     }
 
-<<<<<<< HEAD
-=======
-    collisionCharacterEnemiesFromTop() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isCollidingFromTop(enemy)) {
-                enemy.chickenDead(enemy);
-            }
-        })
+    collisionEnemyBottles() {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy) && !enemy.isDead && !bottle.hasHit) {
+                    enemy.chickenDead(enemy); // Huhn stirbt
+                    enemy.isDead = true;
+                    bottle.hasHit = true;
+                    bottle.bottleSplash(bottle);
+                    setTimeout(() => {
+                        this.throwableObjects.splice(bottleIndex, 1);
+                    }, 1000);
+
+                }
+            });
+        });
     }
 
->>>>>>> cc165f7834e87d0c4f51cb52d5f7a105afffb3d6
+
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {

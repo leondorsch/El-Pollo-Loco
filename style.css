@@ -34,24 +34,4 @@ h1 {
 
 canvas {
     background-color: black;
-}
-
-.controls-container {
-    width: 720px;
-    height: 40px;
-    background-color: transparent;
-    border-radius: 8px;
-    bottom: 48px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    letter-spacing: 4px;
-    
-}
-
-.controls {
-    align-items: center;
-    display: flex;
-    
-}
+} 

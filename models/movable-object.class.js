@@ -33,22 +33,12 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x - mo.offset.left &&  // R -> L
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // T -> B
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // B -> T
-    }
-<<<<<<< HEAD
-    
-=======
-
-    isCollidingFromTop(mo) {
-        return this.isColliding(mo) &&
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top
+        return this.x + this.width > mo.x &&  // R -> L
+            this.y + this.height > mo.y && // T -> B
+            this.x < mo.x + mo.width && // L -> R
+            this.y < mo.y + mo.height; // B -> T
     }
 
-
->>>>>>> cc165f7834e87d0c4f51cb52d5f7a105afffb3d6
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -87,7 +77,6 @@ class MovableObject extends DrawableObject {
     moveRight() {
         this.x += this.speed;
         this.lastMovement = new Date().getTime();
-
     }
 
     moveLeft() {

@@ -104,7 +104,6 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.footsteps_sound.play();
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.footsteps_sound.pause();
                 this.jump();
@@ -117,7 +116,10 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                setInterval(() => {
+                    this.playAnimation(this.IMAGES_DEAD);
+                    this.y += 5;
+                }, 50);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
