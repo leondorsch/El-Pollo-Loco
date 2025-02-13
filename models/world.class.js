@@ -41,7 +41,8 @@ class World {
     checkThrowObjects() {
         if (this.keyboard.D) {
             if (this.bottles.length > 0) {
-                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                let bottle = new ThrowableObject(this.character.x , this.character.y + 100, this.character.otherDirection);
+                console.log(this.otherDirection)
                 console.log(bottle)
                 this.throwableObjects.push(bottle);
                 this.bottles.pop();
@@ -76,8 +77,8 @@ class World {
     collisionEnemyBottles() {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy) && !enemy.isDead && !bottle.hasHit) {
-                    enemy.chickenDead(enemy); // Huhn stirbt
+                if (bottle.isColliding(enemy) && !bottle.hasHit) {
+                    enemy.chickenDead(enemy); 
                     enemy.isDead = true;
                     bottle.hasHit = true;
                     bottle.bottleSplash(bottle);
