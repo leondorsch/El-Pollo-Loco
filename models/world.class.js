@@ -2,6 +2,7 @@ class World {
     character = new Character();
     chicken = new Chicken();
     bottle = new Bottle();
+    endboss = new Endboss();
     movableObject = new MovableObject();
     level = level1;
     ctx;
@@ -11,6 +12,7 @@ class World {
     statusBarHealth = new StatusBarHealth();
     statusBarBottles = new StatusBarBottles();
     statusBarCoins = new StatusBarCoins();
+    statusBarEndboss = [];
     throwableObjects = [];
     coins = [];
     bottles = [];
@@ -35,18 +37,25 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkIfNearEndboss();
         }, 200);
     }
 
     checkThrowObjects() {
         if (this.keyboard.D) {
             if (this.bottles.length > 0) {
-                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.movableObject.otherDirection);
-                console.log(bottle)
+                let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100, this.character.otherDirection);
                 this.throwableObjects.push(bottle);
                 this.bottles.pop();
                 this.statusBarBottles.setPercentage(this.bottles.length);
             }
+        }
+    }
+
+    checkIfNearEndboss() {
+        if (this.character.x === this.level.level_end_x) {
+            let statusBar = new StatusBarEndboss(500, 10);
+            this.statusBarEndboss.push(statusBar);
         }
     }
 
@@ -55,6 +64,8 @@ class World {
         this.collisionCharacterCoins();
         this.collisionCharacterBottles();
         this.collisionEnemyBottles();
+        this.collisionCharacterEndboss();
+        this.collisionBottlesEndboss();
 
     }
 
@@ -76,8 +87,8 @@ class World {
     collisionEnemyBottles() {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy) && !enemy.isDead && !bottle.hasHit) {
-                    enemy.chickenDead(enemy); // Huhn stirbt
+                if (bottle.isColliding(enemy) && !bottle.hasHit) {
+                    enemy.chickenDead(enemy);
                     enemy.isDead = true;
                     bottle.hasHit = true;
                     bottle.bottleSplash(bottle);
@@ -115,6 +126,14 @@ class World {
             return true;
         });
     }
+    
+    collisionCharacterEndboss(){
+
+    }
+
+    collisionBottlesEndboss(){
+        
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -128,10 +147,12 @@ class World {
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
+        this.addObjectsToMap(this.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0)
 
 
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);

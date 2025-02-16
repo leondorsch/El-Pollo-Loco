@@ -4,6 +4,7 @@ class Character extends MovableObject {
     height = 230;
     y = 60;
     speed = 10;
+    otherDirection = false;
     offset = {
         top: 120,
         bottom: 30,

@@ -33,27 +33,29 @@ class ThrowableObject extends MovableObject {
     splashBottleInterval;
 
     animate() {
-        this.throw(100, 150);
-        this.throw_bottle_sound.loop = false;
-        this.throw_bottle_sound.play();
+        this.throw(this.otherDirection);
+        // this.throw_bottle_sound.play();
+        // this.throw_bottle_sound.loop = false;
         this.rotateBottleInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROWING);
         }, 100);
     }
 
-    throw() {
+    throw(otherDirection) {
+        console.log(otherDirection)
         this.speedY = 20;
         this.applyGravity();
         this.throwBottleInterval = setInterval(() => {
-            if (this.y >= 360) {
+            if (this.y > 360) {
                 clearInterval(this.throwBottleInterval);
                 clearInterval(this.rotateBottleInterval);
+                this.hasHit = true;
                 setInterval(() => {
                     this.y = 360;
                     this.playAnimation(this.bottle.IMAGES_BOTTLES);
                 }, 1000);
             } else {
-                if (this.otherDirection) {
+                if (otherDirection === true) {
                     this.x -= 10;
                 } else {
                     this.x += 10;
@@ -61,7 +63,6 @@ class ThrowableObject extends MovableObject {
             }
         }, 25);
     }
-
 
     bottleSplash(bottle) {
         if (bottle.y = 360) {
