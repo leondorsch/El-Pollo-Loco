@@ -19,19 +19,49 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+}
 
+button {
+    cursor: pointer;
 }
 
 h1 {
     font-size: 56px;
     letter-spacing: 4px;
     position: relative;
-    background: linear-gradient(45deg,green,gold,red);
+    background: linear-gradient(45deg, green, gold, red);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-
 canvas {
     background-color: black;
-} 
+}
+
+.start-screen {
+    width: 100%;
+    height: 100%;
+    max-width: 720px;
+    max-height: 480px;
+    display: flex;
+    justify-content: center;
+    background-image: url(./img/9_intro_outro_screens/start/startscreen_1.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.start-game-btn {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 16px;
+    background-color: orange;
+    border-radius: 8px;
+    border: 1px black solid;
+    color: black;
+    padding: 24px;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+}

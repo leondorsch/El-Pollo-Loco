@@ -1,13 +1,13 @@
-class smallChicken extends MovableObject {
+class SmallChicken extends MovableObject {
     isDead = false;
     height = 60;
     y = 360;
     width = 60;
     offset = {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 20,
     }
     IntervalChickenMoveLeft;
     IntervalChickenWalk;
@@ -40,7 +40,7 @@ class smallChicken extends MovableObject {
 
         this.IntervalChickenJump = setInterval(() => {
             if (!this.isAboveGround(true)) {
-                this.smallChickenJump();
+                this.SmallChickenJump();
             }
         }, 2000);
 

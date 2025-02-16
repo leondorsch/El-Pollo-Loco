@@ -5,9 +5,9 @@ class Chicken extends MovableObject {
     width = 60;
     offset = {
         top: 0,
-        left: 0,
-        right: 0,
         bottom: 0,
+        left: 10,
+        right: 20,
     }
     IntervalChickenMoveLeft;
     IntervalChickenWalk;

@@ -27,17 +27,18 @@ class MovableObject extends DrawableObject {
             return this.y < 360;
         } else if (this instanceof Character) {
             return this.y < 180;
-        } else if (this instanceof smallChicken) {
+        } else if (this instanceof SmallChicken) {
             return this.y < 360;
         }
     }
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&  // R -> L
-            this.y + this.height > mo.y && // T -> B
-            this.x < mo.x + mo.width && // L -> R
-            this.y < mo.y + mo.height; // B -> T
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&  // R -> L
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // T -> B
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // B -> T
     }
+
 
     hit() {
         this.energy -= 5;
@@ -45,6 +46,20 @@ class MovableObject extends DrawableObject {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
+        }
+    }
+
+    hitBottlesEndboss(){
+        this.energy -= 20;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } 
+    }
+
+    hitCharacterEndboss() {
+        this.energy -= 50;
+        if (this.energy < 0) {
+            this.energy = 0;
         }
     }
 
@@ -89,7 +104,7 @@ class MovableObject extends DrawableObject {
         this.lastMovement = new Date().getTime();
     }
 
-    smallChickenJump() {
+    SmallChickenJump() {
         this.speedY = 10;
     }
 }

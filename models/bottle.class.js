@@ -3,6 +3,12 @@ class Bottle extends MovableObject {
     y = 360;
     width = 60;
     spinBottle;
+    offset = {
+        top: 10,
+        bottom: 10,
+        left: 20,
+        right: 30,
+    }
     IMAGES_BOTTLES = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
