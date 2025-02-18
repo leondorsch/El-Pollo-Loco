@@ -1,6 +1,6 @@
 class Bottle extends MovableObject {
     height = 60;
-    y = 360;
+    y = 380;
     width = 60;
     spinBottle;
     offset = {

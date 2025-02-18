@@ -2,7 +2,7 @@ class World {
     character = new Character();
     chicken = new Chicken();
     bottle = new Bottle();
-    endboss = new Endboss();
+    endboss = new Endboss(this.character);
     movableObject = new MovableObject();
     level = level1;
     ctx;
@@ -39,11 +39,12 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkIfNearEndboss();
-        }, 200);
+        }, 50);
     }
 
     checkThrowObjects() {
         if (this.keyboard.D) {
+            this.keyboard.D = false;
             if (this.bottles.length > 0) {
                 let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100, this.character.otherDirection);
                 this.throwableObjects.push(bottle);
@@ -73,7 +74,6 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround() && !enemy.isDead) {
-                    console.log(this.character.isAboveGround);
                     enemy.chickenDead(enemy);
                     enemy.isDead = true;
                 } else if (!enemy.isDead) {
@@ -109,7 +109,6 @@ class World {
                 this.coin_sound.play();
                 this.coins.push(coin);
                 this.statusBarCoins.setPercentage(this.coins.length);
-                console.log(this.coins.length)
                 return false;
             }
             return true;
@@ -142,7 +141,6 @@ class World {
                 bottle.hasHit = true;
                 this.endboss.hitBottlesEndboss();
                 this.statusBarEndboss.setPercentage(this.endboss.energy);
-                console.log(this.endboss.energy);
                 bottle.bottleSplash(bottle);
                 setTimeout(() => {
                     this.throwableObjects.splice(bottleIndex, 1);

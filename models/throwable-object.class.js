@@ -42,7 +42,6 @@ class ThrowableObject extends MovableObject {
     }
 
     throw(otherDirection) {
-        console.log(otherDirection)
         this.speedY = 20;
         this.applyGravity();
         this.throwBottleInterval = setInterval(() => {
@@ -51,7 +50,6 @@ class ThrowableObject extends MovableObject {
                 clearInterval(this.rotateBottleInterval);
                 this.hasHit = true;
                 setInterval(() => {
-                    this.y = 360;
                     this.playAnimation(this.bottle.IMAGES_BOTTLES);
                 }, 1000);
             } else {
@@ -65,7 +63,7 @@ class ThrowableObject extends MovableObject {
     }
 
     bottleSplash(bottle) {
-        if (bottle.y = 360) {
+        if (bottle.hasHit) {
             clearInterval(this.throwBottleInterval);
             clearInterval(this.rotateBottleInterval);
             this.splashBottleInterval = setInterval(() => {

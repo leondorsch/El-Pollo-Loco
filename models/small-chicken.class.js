@@ -36,7 +36,7 @@ class SmallChicken extends MovableObject {
 
         this.IntervalChickenWalk = setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
-        }, 100);
+        }, 200);
 
         this.IntervalChickenJump = setInterval(() => {
             if (!this.isAboveGround(true)) {
@@ -51,7 +51,6 @@ class SmallChicken extends MovableObject {
         clearInterval(this.IntervalChickenWalk);
         clearInterval(this.IntervalChickenJump);
         enemy.loadImage(this.IMAGES_DEAD[0]);
-        enemy.speed = 0;
     }
 
 

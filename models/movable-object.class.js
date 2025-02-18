@@ -49,17 +49,21 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    hitBottlesEndboss(){
-        this.energy -= 20;
+    hitBottlesEndboss() {
+        this.energy -= 40;
         if (this.energy < 0) {
             this.energy = 0;
-        } 
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 
     hitCharacterEndboss() {
         this.energy -= 50;
         if (this.energy < 0) {
             this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
         }
     }
 
