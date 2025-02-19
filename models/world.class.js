@@ -16,6 +16,8 @@ class World {
     throwableObjects = [];
     coins = [];
     bottles = [];
+    game_music = new Audio('audio/game-music.mp3');
+    chicken_sound = new Audio('audio/chicken-bg-sounds.mp3');
     coin_sound = new Audio('audio/coin.mp3');
     bottle_sound = new Audio('audio/bottle.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
@@ -24,13 +26,14 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
         this.setWorld();
         this.run();
+        this.startDrawing();
 
     }
 
     setWorld() {
+        
         this.character.world = this;
     }
 
@@ -61,12 +64,15 @@ class World {
     }
 
     checkCollisions() {
-        this.collisionCharacterEnemies();
-        this.collisionCharacterCoins();
-        this.collisionCharacterBottles();
-        this.collisionEnemyBottles();
-        this.collisionCharacterEndboss();
-        this.collisionEndbossBottles()
+        if (this.level) {
+            this.collisionCharacterEnemies();
+            this.collisionCharacterCoins();
+            this.collisionCharacterBottles();
+            this.collisionEnemyBottles();
+            this.collisionCharacterEndboss();
+            this.collisionEndbossBottles()
+        }
+
 
     }
 
@@ -149,6 +155,11 @@ class World {
         });
     }
 
+    startDrawing() {
+        if (!this.level) return; 
+        this.draw();
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -164,13 +175,14 @@ class World {
         if (this.statusBarEndboss) this.addToMap(this.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0)
 
-
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
+
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
+
 
         this.ctx.translate(-this.camera_x, 0)
 

@@ -27,20 +27,51 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/instructions_template.js"></script>
+    <script src="js/impressum_template.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./favicon/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./favicon/favicon-512x512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./favicon/android-chrome-512x512.png">
     <link rel="manifest" href="./favicon/site.webmanifest">
 </head>
 
 <body onload="init()">
-    <h1>El pollo loco</h1>
-    <canvas id="canvas" width="720" height="480">
+    <div id="fullscreen">
+        <h1>El pollo loco</h1>
+        <div id="overlay">
+            <div class="settings-container">
+                <img id="sound-symbol" onclick="toggleSound()" src="./img/9_intro_outro_screens/start/sound.png" alt="sound">
+                <div>
+                    <img onclick="showImpressum()" src="./img/9_intro_outro_screens/start/impressum.png" alt="impressum">
+                    <img onclick="showInstructions()" src="./img/9_intro_outro_screens/start/instructions.png" alt="instructions">
+                </div>
+                
+            </div>
+            <div class="start-btn-container">
+                <button onclick="startGame()" id="start-game-btn">Play!</button>
+            </div>
+            <!-- <div class="fullscreen-container">
+                <img onclick="fullScreen()" src="./img/9_intro_outro_screens/start/fullscreen.png" alt="">
+            </div> -->
 
-    </canvas>
+
+
+        </div>
+        <canvas id="canvas" width="720" height="480">
+        </canvas>
+    </div>
+
 </body>
 
 </html>
+
+<!-- <a href="https://www.flaticon.com/free-icons/fullscreen" title="fullscreen icons">Fullscreen icons created by Those Icons - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/keyboard-button" title="keyboard button icons">Keyboard button icons created by kliwir art - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/gap" title="Gap icons">Gap icons created by Shashank Singh - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/keypad" title="keypad icons">Keypad icons created by Roundicons Premium - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/bad" title="bad icons">Bad icons created by Freepik - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/de/kostenlose-icons/die-info" title="die info Icons">Die info Icons erstellt von Freepik - Flaticon</a> -->
+<!-- <a href="https://www.flaticon.com/de/kostenlose-icons/hilfe" title="hilfe Icons">Hilfe Icons erstellt von nahumam - Flaticon</a> -->
