@@ -41,7 +41,5 @@ class Chicken extends MovableObject {
         clearInterval(this.IntervalChickenMoveLeft);
         clearInterval(this.IntervalChickenWalk);
         enemy.loadImage(this.IMAGES_DEAD[0]);
-        
-        
     }
 }

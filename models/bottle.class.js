@@ -23,7 +23,6 @@ class Bottle extends MovableObject {
     }
 
     animate() {
-
         this.spinBottle = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLES);
         }, 1000);

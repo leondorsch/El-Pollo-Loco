@@ -4,10 +4,10 @@ class SmallChicken extends MovableObject {
     y = 360;
     width = 60;
     offset = {
-        top: 10,
+        top: 0,
         bottom: 10,
         left: 10,
-        right: 20,
+        right: 10,
     }
     IntervalChickenMoveLeft;
     IntervalChickenWalk;

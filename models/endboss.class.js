@@ -2,9 +2,12 @@ class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y = 60;
-    x = 2200;
+    x = 2500;
     health = 100;
     character;
+    endbossIsHurt = false;
+    endbossIsDead = false;
+    endbossIsWalking = false;
     offset = {
         top: 100,
         bottom: 40,
@@ -44,11 +47,13 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
-
     IntervalBossChickenAlert;
     IntervalBossChickenWalk;
+    IntervalBossChickenAttack;
+    IntervalBossChickenHurt;
+    IntervalBossChickenDead;
 
-    constructor(character) {
+    constructor() {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
@@ -57,18 +62,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.animate();
         this.speed = 0.15;
-        this.character = character;
     }
-
     animate() {
-        setInterval(() => {
-            if(this.energy == 0){
-                setInterval(() => {
-                    this.playAnimation(this.IMAGES_DEAD);
-                }, 200);
-            } else {
-                this.playAnimation(this.IMAGES_ALERT);
-            }
-        }, 250);
+        
     }
 }

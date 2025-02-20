@@ -8,8 +8,8 @@ class Character extends MovableObject {
     offset = {
         top: 120,
         bottom: 0,
-        left: 20,
-        right: 20
+        left: 30,
+        right: 30
     }
 
     IMAGES_WALKING = [
@@ -104,12 +104,14 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.moveLeft();
                 this.footsteps_sound.play();
+                this.footsteps_sound.volume = 0.2;
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.footsteps_sound.pause();
                 this.jump();
                 this.jump_sound.play();
-                this.footsteps_sound.pause();
+                this.jump_sound.volume = 0.4;
+                this.jump_sound.loop = false;
             }
             this.world.camera_x = -this.x + 100;
 
@@ -120,7 +122,7 @@ class Character extends MovableObject {
                 setInterval(() => {
                     this.playAnimation(this.IMAGES_DEAD);
                     this.y += 5;
-                }, 50);
+                }, 200);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
