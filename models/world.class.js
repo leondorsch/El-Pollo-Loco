@@ -3,12 +3,13 @@ class World {
     chicken = new Chicken();
     bottle = new Bottle();
     camera_x = 0;
-    endboss = new Endboss(this.character);
+    endboss = new Endboss();
     movableObject = new MovableObject();
     level = level1;
     ctx;
     canvas;
     keyboard;
+    bottleIsFlying = false;
     statusBarHealth = new StatusBarHealth();
     statusBarBottles = new StatusBarBottles();
     statusBarCoins = new StatusBarCoins();
@@ -27,20 +28,33 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.loadLevel();
         this.setWorld();
         this.run();
-        this.startDrawing();
+
 
     }
 
+    loadLevel() {
+        if (this.level) {
+            this.draw();
+        } else {
+            return;
+        }
+    }
+
     setWorld() {
+        this.character.world = this;
+        this.endboss.world = this;
+    }
+
+    setGameSounds() {
         this.game_music.loop = true;
         this.game_music.volume = 0.2;
         this.game_music.play();
         this.chicken_sound.loop = true;
         this.chicken_sound.volume = 0.5;
         this.chicken_sound.play();
-        this.character.world = this;
     }
 
     run() {
@@ -52,15 +66,21 @@ class World {
     }
 
     checkThrowObjects() {
-        
-        if (this.keyboard.D) {
-            if (this.bottles.length > 0) {
-                let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100, this.character.otherDirection);
-                this.throwableObjects.push(bottle);
-                this.bottles.pop();
-                this.statusBarBottles.setPercentage(this.bottles.length);
+        if (this.bottleIsFlying == false) {
+            if (this.keyboard.D) {
+                if (this.bottles.length > 0) {
+                    this.bottleIsFlying = true;
+                    let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100, this.character.otherDirection);
+                    this.throwableObjects.push(bottle);
+                    this.bottles.pop();
+                    this.statusBarBottles.setPercentage(this.bottles.length);
+                }
+                setTimeout(() => {
+                    this.bottleIsFlying = false;
+                }, 500);
             }
         }
+
     }
 
     checkIfNearEndboss() {
@@ -78,9 +98,7 @@ class World {
             this.collisionCharacterEndboss();
             this.collisionEndbossBottles()
         }
-
     }
-
     collisionCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
@@ -159,11 +177,6 @@ class World {
                 }, 800);
             }
         });
-    }
-
-    startDrawing() {
-        if (!this.level) return;
-        this.draw();
     }
 
     draw() {

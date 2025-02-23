@@ -60,5 +60,4 @@ function initLevel() {
             new Coin(),
         ],
     );
-    init();
 };

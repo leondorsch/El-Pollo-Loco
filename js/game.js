@@ -8,9 +8,6 @@ bgMusic.volume = 0.2;
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    
-
-
     console.log('My Characte is', world.character);
 }
 
@@ -110,9 +107,9 @@ function toggleSound() {
     }
 }
 
-
 function startGame() {
     document.getElementById('overlay').classList.add('d-none');
     bgMusic.pause();
     initLevel();
+    init();
 }

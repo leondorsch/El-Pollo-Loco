@@ -70,7 +70,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png',
     ];
-
+    
     world;
 
     constructor() {
@@ -95,7 +95,7 @@ class Character extends MovableObject {
 
         setInterval(() => {
             this.footsteps_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            if (this.world.keyboard.RIGHT && this.x < 2200) {
                 this.otherDirection = false;
                 this.moveRight();
                 this.footsteps_sound.play();

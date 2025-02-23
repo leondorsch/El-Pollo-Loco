@@ -38,7 +38,7 @@ class ThrowableObject extends MovableObject {
         this.throw_bottle_sound.loop = false;
         this.rotateBottleInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROWING);
-        }, 50);
+        },100);
     }
 
     throw(otherDirection) {
