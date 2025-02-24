@@ -70,7 +70,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png',
     ];
-    
+
     world;
 
     constructor() {
@@ -114,7 +114,6 @@ class Character extends MovableObject {
                 this.jump_sound.loop = false;
             }
             this.world.camera_x = -this.x + 100;
-
         }, 1000 / 60);
 
         setInterval(() => {
@@ -132,6 +131,6 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 150);
+        }, 200);
     };
 }

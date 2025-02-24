@@ -58,15 +58,15 @@ function showInstructions() {
     document.getElementById('overlay').innerHTML += instructions();
 }
 
-function showImpressum(){
+function showImpressum() {
     document.getElementById('overlay').innerHTML += impressum();
 }
 
-function closeInstructions(){
+function closeInstructions() {
     document.getElementById('instructions').outerHTML = "";
 }
 
-function closeImpressum(){
+function closeImpressum() {
     document.getElementById('impressum').outerHTML = "";
 }
 
@@ -107,9 +107,24 @@ function toggleSound() {
     }
 }
 
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        document.getElementById("start-game-btn").click();
+    }
+});
+
 function startGame() {
     document.getElementById('overlay').classList.add('d-none');
     bgMusic.pause();
     initLevel();
     init();
+}
+
+function endGame() {
+    setTimeout(() => {
+        document.getElementById('overlay').classList.remove('d-none');
+        document.getElementById('overlay').style.backgroundImage = "url('img/9_intro_outro_screens/game_over/game over.png')";
+    }, 1000);
+
+
 }

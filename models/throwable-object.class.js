@@ -38,7 +38,7 @@ class ThrowableObject extends MovableObject {
         this.throw_bottle_sound.loop = false;
         this.rotateBottleInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROWING);
-        },100);
+        }, 100);
     }
 
     throw(otherDirection) {
@@ -62,14 +62,11 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
-    bottleSplash(bottle) {
-        if (bottle.hasHit) {
-            clearInterval(this.throwBottleInterval);
-            clearInterval(this.rotateBottleInterval);
-            this.splashBottleInterval = setInterval(() => {
-                this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-            }, 200)
-        };
-
+    bottleSplash() {
+        clearInterval(this.throwBottleInterval);
+        clearInterval(this.rotateBottleInterval);
+        this.splashBottleInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+        }, 200)
     }
 }

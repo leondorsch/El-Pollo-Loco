@@ -13,9 +13,6 @@ function initLevel() {
             new SmallChicken(),
         ],
         [
-            new Endboss(),
-        ],
-        [
             new Cloud(),
             new Cloud(),
             new Cloud(),

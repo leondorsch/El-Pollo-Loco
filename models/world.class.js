@@ -3,7 +3,7 @@ class World {
     chicken = new Chicken();
     bottle = new Bottle();
     camera_x = 0;
-    endboss = new Endboss();
+    endboss = new Endboss(this.character);
     movableObject = new MovableObject();
     level = level1;
     ctx;
@@ -31,8 +31,6 @@ class World {
         this.loadLevel();
         this.setWorld();
         this.run();
-
-
     }
 
     loadLevel() {
@@ -120,9 +118,9 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy) && !bottle.hasHit) {
                     enemy.chickenDead(enemy);
+                    bottle.bottleSplash(bottle);
                     enemy.isDead = true;
                     bottle.hasHit = true;
-                    bottle.bottleSplash(bottle);
                     setTimeout(() => {
                         this.throwableObjects.splice(bottleIndex, 1);
                     }, 800);
@@ -195,12 +193,12 @@ class World {
         this.ctx.translate(this.camera_x, 0)
 
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
 
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
+        this.addToMap(this.endboss);
 
 
         this.ctx.translate(-this.camera_x, 0)
@@ -213,9 +211,14 @@ class World {
     }
 
     addObjectsToMap(objects) {
-        objects.forEach(o => {
-            this.addToMap(o);
-        })
+        try {
+            objects.forEach(o => {
+                this.addToMap(o);
+            })
+        } catch (error) {
+
+        }
+
     }
 
     addToMap(mo) {

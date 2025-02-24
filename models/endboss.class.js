@@ -4,10 +4,8 @@ class Endboss extends MovableObject {
     y = 60;
     x = 2500;
     health = 100;
-    character;
-    endbossIsHurt = false;
-    endbossIsDead = false;
-    endbossIsWalking = false;
+    isAlert = true;
+    isHit = false;
     offset = {
         top: 100,
         bottom: 40,
@@ -56,18 +54,38 @@ class Endboss extends MovableObject {
     IntervalBossChickenHurt;
     IntervalBossChickenDead;
 
-    constructor() {
+    constructor(character) {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
+        this.character = character;
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.animate();
-        this.speed = 0.15;
+        this.speed = 0.4;
     }
-    
+
     animate() {
-        
+        setInterval(() => {
+            if (this.isDead()) {
+                clearInterval(this.IntervalBossChickenMoveLeft);
+                clearInterval(this.IntervalBossChickenWalk);
+                this.playAnimation(this.IMAGES_DEAD);
+                endGame();
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.character.x >= 2000 && this.isAlert) {
+                this.isAlert = false
+                this.IntervalBossChickenMoveLeft = setInterval(() => {
+                    this.moveLeft();
+                }, 1000 / 60)
+                this.IntervalBossChickenWalk = setInterval(() => {
+                    this.playAnimation(this.IMAGES_WALKING);
+                }, 250)
+            } else if (this.isAlert) {
+                this.playAnimation(this.IMAGES_ALERT);
+            }
+        }, 200);
     }
 }
