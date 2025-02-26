@@ -1,11 +1,15 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let gameAudios = [];
+let gameIntervals = [];
+let isMuted = false;
 let bgMusic = new Audio('audio/bg-music.mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.2;
 
 function init() {
+    gameAudios.push(bgMusic)
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     console.log('My Characte is', world.character);
@@ -70,20 +74,25 @@ function closeImpressum() {
     document.getElementById('impressum').outerHTML = "";
 }
 
-function fullScreen() {
-    let fullscreen = document.getElementById('fullscreen');
-    let fullscreenCanvas = document.getElementById('canvas');
-    enterFullScreen(fullscreenCanvas);
-    enterFullScreen(fullscreen);
+function toggleFullScreen(e) {
+    if (e.src.includes("fullscreen")) {
+        let fullscreen = document.getElementById('fullscreen');
+        e.src = './img/9_intro_outro_screens/start/minimize.png';
+        openFullscreen(fullscreen);
+    } else {
+        e.src = './img/9_intro_outro_screens/start/fullscreen.png';
+        exitFullScreen();
+    }
+
 }
 
-function enterFullScreen(element) {
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
-        element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {  // iOS Safari
-        element.webkitRequestFullscreen();
+function openFullscreen(e) {
+    if (e.requestFullscreen) {
+        e.requestFullscreen();
+    } else if (e.webkitRequestFullscreen) {
+        e.webkitRequestFullscreen();
+    } else if (e.msRequestFullscreen) {
+        e.msRequestFullscreen();
     }
 }
 
@@ -95,17 +104,24 @@ function exitFullScreen() {
     }
 }
 
-function toggleSound() {
-    let img = document.getElementById('sound-symbol');
-
-    if (img.src.includes("sound.png")) {
+function toggleSoundStartScreen(e) {
+    if (e.src.includes("sound.png")) {
         bgMusic.play();
-        img.src = 'img/9_intro_outro_screens/start/sound-off.png';
+        e.src = 'img/9_intro_outro_screens/start/sound-off.png';
     } else {
         bgMusic.pause();
-        img.src = 'img/9_intro_outro_screens/start/sound.png';
+        e.src = 'img/9_intro_outro_screens/start/sound.png';
     }
 }
+
+function toggleGameSounds(e) {
+    let isMuted = e.src.includes("sound.png");
+    e.src = isMuted ? 'img/9_intro_outro_screens/start/sound-off.png' : 'img/9_intro_outro_screens/start/sound.png';
+    gameAudios.forEach(audio => {
+        audio.muted = isMuted;
+    });
+}
+
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -120,11 +136,14 @@ function startGame() {
     init();
 }
 
+function pauseGame() {
+    
+}
+
 function endGame() {
     setTimeout(() => {
         document.getElementById('overlay').classList.remove('d-none');
         document.getElementById('overlay').style.backgroundImage = "url('img/9_intro_outro_screens/game_over/game over.png')";
     }, 1000);
-
-
 }
+

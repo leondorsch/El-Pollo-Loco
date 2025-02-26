@@ -72,20 +72,28 @@ class Endboss extends MovableObject {
                 clearInterval(this.IntervalBossChickenMoveLeft);
                 clearInterval(this.IntervalBossChickenWalk);
                 this.playAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    this.img = this.IMAGES_DEAD[this.IMAGES_DEAD.length];
+                }, this.IMAGES_DEAD.length * 100); 
+
+                this.IntervalBossChickenDead = setTimeout(() => {
+                    clearInterval(this.IntervalBossChickenDead);
+                }, 200);
                 endGame();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.character.x >= 2000 && this.isAlert) {
-                this.isAlert = false
+                this.isAlert = false;
                 this.IntervalBossChickenMoveLeft = setInterval(() => {
                     this.moveLeft();
-                }, 1000 / 60)
+                }, 1000 / 60);
                 this.IntervalBossChickenWalk = setInterval(() => {
                     this.playAnimation(this.IMAGES_WALKING);
-                }, 250)
+                }, 250);
             } else if (this.isAlert) {
                 this.playAnimation(this.IMAGES_ALERT);
             }
         }, 200);
+
     }
 }

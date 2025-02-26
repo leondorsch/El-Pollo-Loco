@@ -49,6 +49,7 @@ canvas {
     width: 720px;
     position: absolute;
     display: flex;
+    z-index: 1;
     flex-direction: column;
 }
 
@@ -156,7 +157,6 @@ canvas {
     background-color: #fec85c;
     background-size: 100% 100%;
     height: 480px;
-    width: 720px;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -172,6 +172,25 @@ canvas {
     font-size: 12px;
 }
 
+.canvas-overlay {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    z-index: 0;
+}
+
+.mute-pause-container {
+    margin: 16px;
+    gap: 12px;
+    position: absolute;
+    height: 32px;
+    display: flex;
+    z-index: 2;
+}
+
+.mute-pause-container :hover {
+    cursor: pointer;
+}
 
 @media only screen and (max-width: 720px) {
     h1 {

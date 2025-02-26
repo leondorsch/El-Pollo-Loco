@@ -25,11 +25,13 @@ class World {
     chicken_dead = new Audio('audio/chicken-dead.mp3');
 
     constructor(canvas, keyboard) {
+        gameAudios.push(this.game_music, this.chicken_sound,this.coin_sound,this.bottle_sound, this.hurt_sound,this.chicken_dead)
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.loadLevel();
         this.setWorld();
+        this.setGameSounds();
         this.run();
     }
 
@@ -47,12 +49,14 @@ class World {
     }
 
     setGameSounds() {
-        this.game_music.loop = true;
-        this.game_music.volume = 0.2;
-        this.game_music.play();
-        this.chicken_sound.loop = true;
-        this.chicken_sound.volume = 0.5;
-        this.chicken_sound.play();
+        if (this.level) {
+            this.game_music.loop = true;
+            this.game_music.volume = 0.3;
+            this.game_music.play();
+            this.chicken_sound.loop = true;
+            this.chicken_sound.volume = 0.8;
+            this.chicken_sound.play();
+        }
     }
 
     run() {
@@ -83,7 +87,7 @@ class World {
 
     checkIfNearEndboss() {
         if (this.character.x > 2000 && !this.statusBarEndboss) {
-            this.statusBarEndboss = new StatusBarEndboss(500, 10);
+            this.statusBarEndboss = new StatusBarEndboss(500, 40);
         }
     }
 
@@ -195,11 +199,9 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
-
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
         this.addToMap(this.endboss);
-
 
         this.ctx.translate(-this.camera_x, 0)
 

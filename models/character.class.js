@@ -75,6 +75,7 @@ class Character extends MovableObject {
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        gameAudios.push(this.footsteps_sound, this.jump_sound);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -104,7 +105,7 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.moveLeft();
                 this.footsteps_sound.play();
-                this.footsteps_sound.volume = 0.2;
+                this.footsteps_sound.volume = 0.5;
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.footsteps_sound.pause();
