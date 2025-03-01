@@ -1,3 +1,7 @@
+/**
+ * Represents the game world that manages all the objects, interactions, and game logic.
+ * It handles the drawing, collisions, throwing of objects, and the status of the game.
+ */
 class World {
     character = new Character();
     chicken = new Chicken();
@@ -24,8 +28,15 @@ class World {
     hurt_sound = new Audio('audio/hurt.mp3');
     chicken_dead = new Audio('audio/chicken-dead.mp3');
 
+    /**
+     * Creates an instance of the game world.
+     * Initializes the character, enemies, objects, and game sounds, and starts the game loop.
+     * 
+     * @param {HTMLCanvasElement} canvas - The canvas element on which the game will be rendered.
+     * @param {Object} keyboard - The keyboard object used to track user input.
+     */
     constructor(canvas, keyboard) {
-        gameAudios.push(this.game_music, this.chicken_sound,this.coin_sound,this.bottle_sound, this.hurt_sound,this.chicken_dead)
+        gameAudios.push(this.game_music, this.chicken_sound, this.coin_sound, this.bottle_sound, this.hurt_sound, this.chicken_dead)
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -35,6 +46,9 @@ class World {
         this.run();
     }
 
+    /**
+     * Loads the level data and draws the game world if the level is set.
+     */
     loadLevel() {
         if (this.level) {
             this.draw();
@@ -43,11 +57,18 @@ class World {
         }
     }
 
+    /**
+     * Sets the world for the character and endboss, linking them to the current world.
+     */
     setWorld() {
         this.character.world = this;
         this.endboss.world = this;
     }
 
+    /**
+     * Sets the game sounds, including background music and sound effects.
+     * Loops the game music and chicken sound.
+     */
     setGameSounds() {
         if (this.level) {
             this.game_music.loop = true;
@@ -59,6 +80,10 @@ class World {
         }
     }
 
+    /**
+     * Starts the game loop, checking for collisions and throwable objects.
+     * Runs every 50 milliseconds.
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -67,6 +92,10 @@ class World {
         }, 50);
     }
 
+    /**
+     * Checks if any throwable objects (e.g., bottles) are thrown by the character.
+     * If the character presses the throw button and has bottles available, a new throwable object is created.
+     */
     checkThrowObjects() {
         if (this.bottleIsFlying == false) {
             if (this.keyboard.D) {
@@ -82,15 +111,20 @@ class World {
                 }, 500);
             }
         }
-
     }
 
+    /**
+     * Checks if the character is near the endboss and creates a status bar for the endboss if not already created.
+     */
     checkIfNearEndboss() {
         if (this.character.x > 2000 && !this.statusBarEndboss) {
             this.statusBarEndboss = new StatusBarEndboss(500, 40);
         }
     }
 
+    /**
+     * Checks for collisions between various game entities (e.g., character, enemies, bottles, etc.).
+     */
     checkCollisions() {
         if (this.level) {
             this.collisionCharacterEnemies();
@@ -101,6 +135,11 @@ class World {
             this.collisionEndbossBottles()
         }
     }
+
+    /**
+     * Handles collisions between the character and enemies.
+     * The character will take damage if not above ground, or the enemy will be killed if hit from above.
+     */
     collisionCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
@@ -117,6 +156,10 @@ class World {
         });
     }
 
+    /**
+     * Handles collisions between throwable objects (e.g., bottles) and enemies.
+     * The enemy is killed and the bottle is destroyed if they collide.
+     */
     collisionEnemyBottles() {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy) => {
@@ -133,7 +176,10 @@ class World {
         });
     }
 
-
+    /**
+     * Handles collisions between the character and coins.
+     * The character collects coins when they collide with them.
+     */
     collisionCharacterCoins() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
@@ -147,6 +193,10 @@ class World {
         });
     }
 
+    /**
+     * Handles collisions between the character and bottles.
+     * The character collects bottles when they collide with them.
+     */
     collisionCharacterBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
@@ -159,6 +209,10 @@ class World {
         });
     }
 
+    /**
+     * Handles collisions between the character and the endboss.
+     * The character takes damage when colliding with the endboss.
+     */
     collisionCharacterEndboss() {
         if (this.character.isColliding(this.endboss)) {
             this.character.hitCharacterEndboss();
@@ -167,9 +221,14 @@ class World {
         }
     }
 
+    /**
+     * Handles collisions between throwable objects (e.g., bottles) and the endboss.
+     * The endboss takes damage when hit by a bottle.
+     */
     collisionEndbossBottles() {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             if (bottle.isColliding(this.endboss) && !bottle.hasHit) {
+
                 bottle.hasHit = true;
                 this.endboss.hitBottlesEndboss();
                 this.statusBarEndboss.setPercentage(this.endboss.energy);
@@ -181,6 +240,10 @@ class World {
         });
     }
 
+    /**
+     * Draws the game world on the canvas.
+     * Updates the positions of all objects and renders the game entities.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -200,8 +263,8 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
-        this.addToMap(this.character);
         this.addToMap(this.endboss);
+        this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0)
 
@@ -212,6 +275,11 @@ class World {
 
     }
 
+    /**
+    * Adds multiple objects to the map.
+    * 
+    * @param {Array} objects - The objects to be added to the map.
+    */
     addObjectsToMap(objects) {
         try {
             objects.forEach(o => {
@@ -223,6 +291,11 @@ class World {
 
     }
 
+    /**
+     * Adds a single object to the map, flipping it if necessary (for mirrored characters).
+     * 
+     * @param {MovableObject} mo - The object to be added to the map.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -236,6 +309,11 @@ class World {
         }
     }
 
+    /**
+     * Flips an image horizontally for mirrored characters.
+     * 
+     * @param {MovableObject} mo - The object whose image needs to be flipped.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -243,6 +321,11 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * Restores the original position and scale of an object after flipping its image.
+     * 
+     * @param {MovableObject} mo - The object whose image needs to be restored.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

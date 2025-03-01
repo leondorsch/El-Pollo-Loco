@@ -33,37 +33,54 @@
     <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="./favicon/android-chrome-512x512.png">
     <link rel="manifest" href="./favicon/site.webmanifest">
 </head>
 
 <body onload="init()">
+    <div class="overlay-turn-device d-none">
+        <img src="./img/9_intro_outro_screens/start/rotate-phone.png" alt="rotate-phone">
+    </div>
     <div id="fullscreen">
-        <h1>El pollo loco</h1>
+        <h1 id="epl-h1">El pollo loco</h1>
         <div id="overlay">
             <div class="settings-container">
-                <img id="sound-symbol" onclick="toggleSoundStartScreen(this)" src="./img/9_intro_outro_screens/start/sound.png"
-                    alt="sound">
+                <img id="sound-symbol" onclick="toggleSoundStartScreen(this)"
+                    src="./img/9_intro_outro_screens/start/sound.png" alt="sound">
                 <div>
-                    <img onclick="showImpressum()" src="./img/9_intro_outro_screens/start/impressum.png"
+                    <img id="impressum" onclick="showImpressum()" src="./img/9_intro_outro_screens/start/impressum.png"
                         alt="impressum">
-                    <img onclick="showInstructions()" src="./img/9_intro_outro_screens/start/instructions.png"
-                        alt="instructions">
+                    <img id="instructions" onclick="showInstructions()"
+                        src="./img/9_intro_outro_screens/start/instructions.png" alt="instructions">
+                    <img id="fullscreen-start" onclick="toggleFullScreen(this)"
+                        src="./img/9_intro_outro_screens/start/fullscreen.png" alt="fullscreen">
                 </div>
 
             </div>
             <div class="start-btn-container">
                 <button onclick="startGame()" id="start-game-btn">Play!</button>
             </div>
-            <div class="fullscreen-container">
-                <img id="fullscreen-img" onclick="toggleFullScreen(this)" src="./img/9_intro_outro_screens/start/fullscreen.png" alt="">
+            <div class="go-home-btn-container">
+                <button onclick="navigateHome()" id="go-home-btn">Home</button>
             </div>
         </div>
         <div class="canvas-overlay">
             <div class="mute-pause-container">
+                <img id="fullscreen-ingame" onclick="toggleFullScreen(this)"
+                    src="./img/9_intro_outro_screens/start/fullscreen.png" alt="">
                 <img onclick="toggleGameSounds(this)" src="./img/9_intro_outro_screens/start/sound.png" alt="sound">
-                <img onclick="pauseGame()" src="./img/9_intro_outro_screens/start/pause.png" alt="pause">
+                <img onclick="pauseAndResumeGame()" src="./img/9_intro_outro_screens/start/pause.png" alt="pause">
+            </div>
+            <div class="mobile-buttons-container d-none">
+                <div class="button-container">
+                    <img id="btnLeft" src="./img/9_intro_outro_screens/start/left-mobile.png" alt="left">
+                    <img id="btnRight" src="./img/9_intro_outro_screens/start/right-mobile.png" alt="">
+                </div>
+                <div class="button-container">
+                    <img id="btnJump" src="./img/9_intro_outro_screens/start/up-mobile.png" alt="">
+                    <img id="btnThrow" src="./img/9_intro_outro_screens/start/throw-mobile.png" alt="">
+                </div>
             </div>
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
@@ -82,3 +99,8 @@
 <!-- <a href="https://www.flaticon.com/de/kostenlose-icons/die-info" title="die info Icons">Die info Icons erstellt von Freepik - Flaticon</a> -->
 <!-- <a href="https://www.flaticon.com/de/kostenlose-icons/hilfe" title="hilfe Icons">Hilfe Icons erstellt von nahumam - Flaticon</a> -->
 <!-- <a href="https://www.flaticon.com/free-icons/exit-full-screen" title="exit full screen icons">Exit full screen icons created by Saepul Nahwan - Flaticon</a> -->
+<!-- <a href="https://www.freepik.com/icon/mobile-phone_536217#fromView=keyword&page=1&position=7&uuid=4482da0c-07c7-446d-b333-500f3dd53ccc">Icon by Freepik</a> -->
+<!-- <a href="https://www.flaticon.com/free-icons/left-direction" title="left direction icons">Left direction icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/next-page" title="next page icons">Next page icons created by Catalin Fertu - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/top" title="top icons">Top icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by syafii5758 - Flaticon</a>  -->

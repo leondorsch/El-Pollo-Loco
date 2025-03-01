@@ -1,6 +1,10 @@
+/**
+ * This function returns the contents of the instructions.
+ * @returns 
+ */
 function instructions() {
     return `
-        <div id="instructions" class="instructions-overlay">
+        <div id="instructions-overlay" class="instructions-overlay">
             <div class="close-instructions-overlay">
                 <img onclick="closeInstructions()" src="./img/9_intro_outro_screens/start/cross.png" alt="">
             </div>

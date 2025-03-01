@@ -1,3 +1,8 @@
+/**
+ * Represents the endboss in the game.
+ * Provides functionality for loading and displaying images, handling animations,
+ * and managing intervals.
+ */
 class Endboss extends MovableObject {
     height = 400;
     width = 250;
@@ -6,12 +11,16 @@ class Endboss extends MovableObject {
     health = 100;
     isAlert = true;
     isHit = false;
+    isDying = false;
     offset = {
         top: 100,
         bottom: 40,
         left: 60,
         right: 80,
     }
+    boss_footsteps = new Audio('audio/boss_footsteps.mp3');
+    boss_start = new Audio('audio/endboss-start.mp3');
+    boss_dead = new Audio('audio/endboss-dead.mp3');
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -53,9 +62,13 @@ class Endboss extends MovableObject {
     IntervalBossChickenAttack;
     IntervalBossChickenHurt;
     IntervalBossChickenDead;
-
+    /**
+     * This function creates an instance of the endboss with a specific image and x-coordinate.
+     * @param {Object} character - Character object to have access to the character characteristics.
+     */
     constructor(character) {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
+        gameAudios.push(this.boss_start, this.boss_dead, this.boss_footsteps);
         this.character = character;
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
@@ -65,35 +78,46 @@ class Endboss extends MovableObject {
         this.animate();
         this.speed = 0.4;
     }
-
+    /**
+     * This function executes the intervals for the movement of the bottle.
+     */
     animate() {
-        setInterval(() => {
-            if (this.isDead()) {
+        this.setStoppableInterval(() => {
+            if (this.isDead() && !this.isDying) {
+                this.boss_dead.play();
+                this.isDying = true;
                 clearInterval(this.IntervalBossChickenMoveLeft);
                 clearInterval(this.IntervalBossChickenWalk);
-                this.playAnimation(this.IMAGES_DEAD);
+                clearInterval(this.IntervalBossChickenAttack);
+                this.IntervalBossChickenDead = this.setStoppableInterval(() => {
+                    this.playAnimation(this.IMAGES_DEAD);
+                }, 200);
                 setTimeout(() => {
-                    this.img = this.IMAGES_DEAD[this.IMAGES_DEAD.length];
-                }, this.IMAGES_DEAD.length * 100); 
-
-                this.IntervalBossChickenDead = setTimeout(() => {
-                    clearInterval(this.IntervalBossChickenDead);
+                    this.loadImage(this.IMAGES_DEAD[2]);
                 }, 200);
                 endGame();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.character.x >= 2000 && this.isAlert) {
                 this.isAlert = false;
-                this.IntervalBossChickenMoveLeft = setInterval(() => {
+                this.boss_start.play();
+                this.boss_start.volume = 0.2;
+                this.boss_start.loop = false;
+                this.IntervalBossChickenMoveLeft = this.setStoppableInterval(() => {
                     this.moveLeft();
                 }, 1000 / 60);
-                this.IntervalBossChickenWalk = setInterval(() => {
+                this.IntervalBossChickenWalk = this.setStoppableInterval(() => {
                     this.playAnimation(this.IMAGES_WALKING);
+                    this.boss_footsteps.play();
+                    this.boss_footsteps.loop = false;
+                    this.boss_footsteps.volume = 0.2;
                 }, 250);
+                this.IntervalBossChickenAttack = this.setStoppableInterval(() => {
+                    this.playAnimation(this.IMAGES_ATTACK);
+                }, 3000);
             } else if (this.isAlert) {
                 this.playAnimation(this.IMAGES_ALERT);
             }
         }, 200);
-
     }
 }

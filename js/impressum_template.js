@@ -1,6 +1,10 @@
+/**
+ * This function returns the contents of the impressum.
+ * @returns 
+ */
 function impressum() {
-    return `
-        <div id="impressum" class="impressum-overlay">
+    return /*html*/`
+        <div id="impressum-overlay" class="impressum-overlay">
         <div class="close-instructions-overlay">
                 <img onclick="closeImpressum()" src="./img/9_intro_outro_screens/start/cross.png" alt="">
             </div>
@@ -17,6 +21,10 @@ function impressum() {
         <p class="impressum-text">Die Inhalte dieses Spiels wurden mit größtmöglicher Sorgfalt erstellt. Dennoch übernimmt der Entwickler keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Eine Haftung für Schäden, die aus der Nutzung des Spiels entstehen, ist ausgeschlossen.</p>
 
         <p class="footer">© 2025 Leon Dorsch | El Pollo Loco</p>
+        <span>Icons provided by
+            <a href="https://www.flaticon.com">Flaticon</a>
+            <a href="https://www.freepik.com">Freepik</a>
+        </span>
     </div>
     `;
 }

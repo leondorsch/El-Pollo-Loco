@@ -1,3 +1,7 @@
+/**
+ * Represents the status bar for bottles in the game.
+ * Displays different images based on the current percentage of collected bottles.
+ */
 class StatusBarBottles extends DrawableObject {
     IMAGES = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
@@ -11,6 +15,10 @@ class StatusBarBottles extends DrawableObject {
 
     percentage = 100;
 
+     /**
+     * Creates an instance of StatusBarBottles.
+     * Initializes position, size, loads images, and sets the initial percentage.
+     */
     constructor() {
         super();
         this.x = 0;
@@ -21,12 +29,22 @@ class StatusBarBottles extends DrawableObject {
         this.setPercentage(0);
     }
 
+    /**
+     * Updates the percentage of collected bottles and changes the displayed image accordingly.
+     * 
+     * @param {number} percentage - The new percentage of bottles collected (between 0 and 100).
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
-
+    
+    /**
+     * Determines the correct image index based on the current percentage.
+     * 
+     * @returns {number} The index of the image in the `IMAGES` array.
+     */
     resolveImageIndex() {
         if (this.percentage == 5) {
             return 5;

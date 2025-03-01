@@ -1,3 +1,7 @@
+/**
+ * Represents the playable chracter object in the game that moves.
+ * Extends the `MovableObject` class and provides properties and methods
+ */
 class Character extends MovableObject {
     footsteps_sound = new Audio('audio/footsteps.mp3');
     jump_sound = new Audio('audio/jump.mp3');
@@ -5,6 +9,7 @@ class Character extends MovableObject {
     y = 60;
     speed = 10;
     otherDirection = false;
+    isDying = false;
     offset = {
         top: 120,
         bottom: 0,
@@ -72,7 +77,9 @@ class Character extends MovableObject {
     ];
 
     world;
-
+    /**
+     * This function creates an instance of the character and loads necessary images.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         gameAudios.push(this.footsteps_sound, this.jump_sound);
@@ -85,16 +92,18 @@ class Character extends MovableObject {
         this.applyGravity();
         this.animate();
     }
-
+    /**
+     * This function executes all animations for the character.
+     */
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);
             if (this.isStanding() && !this.firstCharacterLoad) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
             }
         }, 200);
 
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             this.footsteps_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < 2200) {
                 this.otherDirection = false;
@@ -117,12 +126,14 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
-        setInterval(() => {
-            if (this.isDead()) {
+        this.setStoppableInterval(() => {
+            if (this.isDead() && !this.isDying) {
+                this.isDying = true;
                 setInterval(() => {
                     this.playAnimation(this.IMAGES_DEAD);
                     this.y += 5;
-                }, 200);
+                }, 50);
+                endGame();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {

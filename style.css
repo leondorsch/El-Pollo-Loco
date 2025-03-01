@@ -59,11 +59,32 @@ canvas {
     font-family: 'zabars', Arial, Helvetica, sans-serif;
     font-size: 32px;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
+    margin-top: 34px;
 }
 
-#start-game-btn:hover{
+#start-game-btn:hover {
     background-color: #df5f0e;
     transform: scale(1.2);
+}
+
+#go-home-btn {
+    padding: 16px;
+    background-color: #fec85c;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
+    display: none;
+}
+
+#go-home-btn:hover {
+    background-color: #df5f0e;
+    transform: scale(1.2);
+}
+
+.go-home-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 180px;
 }
 
 .start-btn-container {
@@ -114,8 +135,8 @@ canvas {
     gap: 8px;
 }
 
-.close-instructions-overlay{
-    display:flex;
+.close-instructions-overlay {
+    display: flex;
     justify-content: end;
 }
 
@@ -153,7 +174,7 @@ canvas {
     display: none !important;
 }
 
-.impressum-overlay{
+.impressum-overlay {
     background-color: #fec85c;
     background-size: 100% 100%;
     height: 480px;
@@ -164,11 +185,11 @@ canvas {
     font-family: sans-serif;
 }
 
-.impressum-headline{
+.impressum-headline {
     color: black;
 }
 
-.impressum-text{
+.impressum-text {
     font-size: 12px;
 }
 
@@ -181,7 +202,7 @@ canvas {
 
 .mute-pause-container {
     margin: 16px;
-    gap: 12px;
+    gap: 24px;
     position: absolute;
     height: 32px;
     display: flex;
@@ -190,6 +211,65 @@ canvas {
 
 .mute-pause-container :hover {
     cursor: pointer;
+}
+
+.overlay-fullscreen {
+    height: 100vh !important;
+    width: 100vw !important;
+}
+
+.overlay-finished {
+    background: url('img/9_intro_outro_screens/game_over/game over.png') !important;
+    background-size: 100% 100% !important;
+    z-index: 1 !important;
+}
+
+.canvas-fullscreen {
+    height: 100vh;
+    width: 100vw;
+}
+
+.overlay-turn-device{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: gray;
+    opacity: 0.8;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-turn-device img {
+    height: 240px;
+}
+
+.mobile-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    position: absolute;
+    bottom: 0px;
+    width: 100vw;
+}
+
+.mobile-buttons-container:first-child {
+    justify-content: flex-start;
+}
+
+.mobile-buttons-container:last-child {
+    justify-content: flex-end;
+}
+
+.button-container {
+    margin: 16px;
+    gap: 24px;
+    height: 40px;
+    display: flex;
+}
+
+.button-container img {
+    height: 50px;
 }
 
 @media only screen and (max-width: 720px) {
@@ -201,8 +281,17 @@ canvas {
         width: 100%;
     }
 
-    #overlay {
+    #overlay{
         width: 100%;
+        left: 0;
+        right: 0;
+    }
+    .mobile-buttons-container{
+        display: flex !important;
+    }
+
+    .overlay-turn-device{
+        display: flex !important;
     }
 }
 
@@ -213,9 +302,17 @@ canvas {
 
     canvas {
         height: 100vh;
+        width: 100vw;
     }
 
     #overlay{
         height: 100vh;
+        width: 100vw;
+    }
+    .mobile-buttons-container{
+        display: flex !important;
+    }
+    .instructions-overlay{
+        width: 100vw;
     }
 }
