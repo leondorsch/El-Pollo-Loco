@@ -84,7 +84,7 @@ canvas {
 .go-home-btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 180px;
+    margin-top: 248px;
 }
 
 .start-btn-container {
@@ -229,7 +229,7 @@ canvas {
     width: 100vw;
 }
 
-.overlay-turn-device{
+.overlay-turn-device {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -272,7 +272,7 @@ canvas {
     height: 50px;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 660px) {
     h1 {
         display: none;
     }
@@ -281,16 +281,17 @@ canvas {
         width: 100%;
     }
 
-    #overlay{
+    #overlay {
         width: 100%;
         left: 0;
         right: 0;
     }
-    .mobile-buttons-container{
+
+    .mobile-buttons-container {
         display: flex !important;
     }
 
-    .overlay-turn-device{
+    .overlay-turn-device {
         display: flex !important;
     }
 }
@@ -305,14 +306,24 @@ canvas {
         width: 100vw;
     }
 
-    #overlay{
+    #overlay {
         height: 100vh;
         width: 100vw;
     }
-    .mobile-buttons-container{
+
+    .mobile-buttons-container {
         display: flex !important;
     }
-    .instructions-overlay{
+
+    .instructions-overlay {
         width: 100vw;
+    }
+}
+
+@media (hover:none) {
+    .mobile-buttons-container {
+        display: flex !important;
+        inset: 0;
+        width: unset !important;
     }
 }

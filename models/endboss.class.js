@@ -8,7 +8,6 @@ class Endboss extends MovableObject {
     width = 250;
     y = 60;
     x = 2500;
-    health = 100;
     isAlert = true;
     isHit = false;
     isDying = false;
@@ -21,6 +20,7 @@ class Endboss extends MovableObject {
     boss_footsteps = new Audio('audio/boss_footsteps.mp3');
     boss_start = new Audio('audio/endboss-start.mp3');
     boss_dead = new Audio('audio/endboss-dead.mp3');
+    victory_sound = new Audio('audio/victory.mp3');
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -68,7 +68,7 @@ class Endboss extends MovableObject {
      */
     constructor(character) {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
-        gameAudios.push(this.boss_start, this.boss_dead, this.boss_footsteps);
+        gameAudios.push(this.boss_start, this.boss_footsteps, this.victory_sound);
         this.character = character;
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
@@ -76,48 +76,107 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.animate();
-        this.speed = 0.4;
+        this.speed = 2.2;
     }
     /**
      * This function executes the intervals for the movement of the bottle.
      */
     animate() {
-        this.setStoppableInterval(() => {
-            if (this.isDead() && !this.isDying) {
-                this.boss_dead.play();
-                this.isDying = true;
-                clearInterval(this.IntervalBossChickenMoveLeft);
-                clearInterval(this.IntervalBossChickenWalk);
-                clearInterval(this.IntervalBossChickenAttack);
-                this.IntervalBossChickenDead = this.setStoppableInterval(() => {
-                    this.playAnimation(this.IMAGES_DEAD);
-                }, 200);
-                setTimeout(() => {
-                    this.loadImage(this.IMAGES_DEAD[2]);
-                }, 200);
-                endGame();
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.character.x >= 2000 && this.isAlert) {
-                this.isAlert = false;
-                this.boss_start.play();
-                this.boss_start.volume = 0.2;
-                this.boss_start.loop = false;
-                this.IntervalBossChickenMoveLeft = this.setStoppableInterval(() => {
-                    this.moveLeft();
-                }, 1000 / 60);
-                this.IntervalBossChickenWalk = this.setStoppableInterval(() => {
-                    this.playAnimation(this.IMAGES_WALKING);
-                    this.boss_footsteps.play();
-                    this.boss_footsteps.loop = false;
-                    this.boss_footsteps.volume = 0.2;
-                }, 250);
-                this.IntervalBossChickenAttack = this.setStoppableInterval(() => {
-                    this.playAnimation(this.IMAGES_ATTACK);
-                }, 3000);
-            } else if (this.isAlert) {
-                this.playAnimation(this.IMAGES_ALERT);
-            }
+        this.setStoppableInterval(() => this.endbossAnimations(), 200);
+    }
+
+    /**
+     * Handles the animations of the endboss based on its state.
+     */
+    endbossAnimations() {
+        if (this.endbossIsDead()) {
+            this.victory_sound.play();
+            this.playAnimationsDead();
+            endGame();
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.endbossIsAlert()) {
+            this.endbossActions();
+        } else if (this.isAlert) {
+            this.playAnimation(this.IMAGES_ALERT);
+        }
+    }
+
+    /**
+     * Checks if the endboss is dead and not in the dying animation.
+     * @returns {boolean} True if the endboss is dead, otherwise false.
+     */
+    endbossIsDead() {
+        return this.isDead() && !this.isDying;
+    }
+
+    /**
+     * Checks if the endboss should be alerted based on the character's position.
+     * @returns {boolean} True if the endboss should be alerted, otherwise false.
+     */
+    endbossIsAlert() {
+        return this.character.x >= 2000 && this.isAlert;
+    }
+
+    /**
+     * Plays the death animation of the endboss and stops its movement.
+     */
+    playAnimationsDead() {
+        if (localStorage.getItem("gameSound") == "on") {
+            this.boss_dead.play();
+        }
+        this.isDying = true;
+        clearInterval(this.IntervalBossChickenMoveLeft);
+        clearInterval(this.IntervalBossChickenWalk);
+        clearInterval(this.IntervalBossChickenAttack);
+        this.IntervalBossChickenDead = this.setStoppableInterval(() => {
+            this.playAnimation(this.IMAGES_DEAD);
         }, 200);
+        setTimeout(() => {
+            this.loadImage(this.IMAGES_DEAD[2]);
+        }, 200);
+    }
+
+    /**
+     * Initiates the endboss actions when it becomes alert.
+     */
+    endbossActions() {
+        this.isAlert = false;
+        this.boss_start.play();
+        this.boss_start.volume = 0.2;
+        this.boss_start.loop = false;
+        this.moveLeft();
+        this.walk();
+        this.attack();
+    }
+
+    /**
+     * Moves the endboss to the left.
+     */
+    moveLeft() {
+        this.IntervalBossChickenMoveLeft = this.setStoppableInterval(() => {
+            super.moveLeft();
+        }, 1000 / 60);
+    }
+
+    /**
+     * Plays the walking animation and sound effects.
+     */
+    walk() {
+        this.IntervalBossChickenWalk = this.setStoppableInterval(() => {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.boss_footsteps.play();
+            this.boss_footsteps.loop = false;
+            this.boss_footsteps.volume = 0.2;
+        }, 250);
+    }
+
+    /**
+     * Triggers the attack animation at intervals.
+     */
+    attack() {
+        this.IntervalBossChickenAttack = this.setStoppableInterval(() => {
+            this.playAnimation(this.IMAGES_ATTACK);
+        }, 3000);
     }
 }

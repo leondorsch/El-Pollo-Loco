@@ -47,19 +47,16 @@ class SmallChicken extends MovableObject {
                 this.moveLeft();
             }
         }, 1000 / 60)
-
         this.IntervalChickenWalk = this.setStoppableInterval(() => {
             if (!this.isDead) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 200);
-
         this.IntervalChickenJump = this.setStoppableInterval(() => {
             if (!this.isAboveGround(true) && !this.isDead) {
                 this.SmallChickenJump();
             }
         }, 2000);
-
     };
     /**
      * Handles the small chicken's death.

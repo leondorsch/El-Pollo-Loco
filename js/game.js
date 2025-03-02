@@ -150,19 +150,33 @@ function closeImpressum() {
  */
 function toggleFullScreen(e) {
     if (e.src.includes("fullscreen")) {
-        document.getElementById('overlay').classList.add('overlay-fullscreen');
-        document.getElementById('canvas').classList.add('canvas-fullscreen');
-        document.getElementById('epl-h1').classList.add('d-none');
+        applyFullscreenStyle();
         let fullscreen = document.getElementById('fullscreen');
         e.src = './img/9_intro_outro_screens/start/minimize.png';
         openFullscreen(fullscreen);
     } else {
-        document.getElementById('epl-h1').classList.remove('d-none');
-        document.getElementById('overlay').classList.remove('overlay-fullscreen');
-        document.getElementById('canvas').classList.remove('canvas-fullscreen');
+        removeFullscreenStyle();
         e.src = './img/9_intro_outro_screens/start/fullscreen.png';
         exitFullScreen();
     }
+}
+
+/**
+ * This function applies styling to elements needed for the fullscreen view
+ */
+function applyFullscreenStyle() {
+    document.getElementById('overlay').classList.add('overlay-fullscreen');
+    document.getElementById('canvas').classList.add('canvas-fullscreen');
+    document.getElementById('epl-h1').classList.add('d-none');
+}
+
+/**
+ * This function removes styling to elements needed for the fullscreen view
+ */
+function removeFullscreenStyle() {
+    document.getElementById('epl-h1').classList.remove('d-none');
+    document.getElementById('overlay').classList.remove('overlay-fullscreen');
+    document.getElementById('canvas').classList.remove('canvas-fullscreen');
 }
 
 /**
@@ -227,10 +241,10 @@ function toggleGameSounds(e) {
     let isMuted = e.src.includes("sound.png");
     if (isMuted) {
         e.src = 'img/9_intro_outro_screens/start/sound-off.png';
-        localStorage.setItem("sound", "on");
+        localStorage.setItem("gameSound", "off");
     } else {
         e.src = 'img/9_intro_outro_screens/start/sound.png';
-        localStorage.setItem("sound", "off");
+        localStorage.setItem("gameSound", "on");
     }
     gameAudios.forEach(audio => {
         audio.muted = isMuted;
@@ -250,14 +264,28 @@ document.addEventListener("keydown", function (event) {
  * This function starts the game, hides the overlay, and initializes the game level.
  */
 function startGame() {
+    let sound = localStorage.getItem("gameSound");
+    if (sound !== "off") {
+        localStorage.setItem("gameSound", "on");
+    }
+    removeOverlay();
+    bgMusic.pause();
+    initLevel();
+    init();
+    gameAudios.forEach(audio => {
+        audio.muted = sound === "off";
+    });
+}
+
+/**
+ * This function removes the overlay if the game started.
+ */
+function removeOverlay() {
     let overlay = document.getElementById('overlay');
     let homeBtn = document.getElementById('go-home-btn');
     homeBtn.classList.remove('d-none');
     overlay.style.display = "none";
     overlay.classList.remove('overlay-finished');
-    bgMusic.pause();
-    initLevel();
-    init();
 }
 
 /**
@@ -296,7 +324,9 @@ function pauseAndResumeGame() {
 function endGame() {
     gameIntervals.forEach(clearInterval);
     gameIntervals = [];
-    stopAllSounds();
+    setTimeout(() => {
+        stopAllSounds();
+    }, 1800);
     showEndGameOverlay();
 }
 
@@ -304,15 +334,15 @@ function endGame() {
  * This function stops all sounds
  */
 function stopAllSounds() {
-    localStorage.setItem("sound", "off");
     gameAudios.forEach(audio => {
         audio.muted = true;
     });
+    gameAudios = [];
 }
 
 /**
  * This function shows the end game overlay.
- */ 
+ */
 function showEndGameOverlay() {
     setTimeout(() => {
         document.getElementById('overlay').style.display = "flex";

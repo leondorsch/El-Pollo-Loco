@@ -70,7 +70,8 @@ class World {
      * Loops the game music and chicken sound.
      */
     setGameSounds() {
-        if (this.level) {
+        let gameSound = localStorage.getItem("gameSound");
+        if (this.level && gameSound == "on") {
             this.game_music.loop = true;
             this.game_music.volume = 0.3;
             this.game_music.play();
@@ -105,8 +106,7 @@ class World {
                     this.throwableObjects.push(bottle);
                     this.bottles.pop();
                     this.statusBarBottles.setPercentage(this.bottles.length);
-                }
-                setTimeout(() => {
+                } setTimeout(() => {
                     this.bottleIsFlying = false;
                 }, 500);
             }
@@ -143,7 +143,7 @@ class World {
     collisionCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround() && !enemy.isDead) {
+                if (this.character.isAboveGround() && this.character.speedY < 10 && !enemy.isDead) {
                     enemy.chickenDead(enemy);
                     enemy.isDead = true;
                     this.chicken_dead.play();
@@ -155,6 +155,7 @@ class World {
             }
         });
     }
+
 
     /**
      * Handles collisions between throwable objects (e.g., bottles) and enemies.
@@ -246,33 +247,48 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0)
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-
+        this.addBackgroundObjects();
         this.ctx.translate(-this.camera_x, 0)
         // space for fixed objects
+        this.addStatusBars();
+        this.ctx.translate(this.camera_x, 0)
+        this.addMovableObjects();
+        this.ctx.translate(-this.camera_x, 0)
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    /**
+     * Adds the background objects to the draw function
+     */
+    addBackgroundObjects() {
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+    }
+
+    /**
+     * Adds the statusbars to the draw function
+     */
+    addStatusBars() {
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
         if (this.statusBarEndboss) this.addToMap(this.statusBarEndboss);
-        this.ctx.translate(this.camera_x, 0)
+    }
 
+    /**
+     * Adds the movable objects to the draw function
+     */
+    addMovableObjects() {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.endboss);
         this.addToMap(this.character);
-
-        this.ctx.translate(-this.camera_x, 0)
-
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
-
     }
 
     /**

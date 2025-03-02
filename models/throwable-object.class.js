@@ -23,14 +23,14 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-     /**
-     * Creates an instance of a throwable bottle object.
-     * Initializes the object’s image, position, and animation.
-     * 
-     * @param {number} x - The x-coordinate where the bottle is thrown from.
-     * @param {number} y - The y-coordinate where the bottle is thrown from.
-     * @param {boolean} otherDirection - Determines the direction in which the bottle is thrown.
-     */
+    /**
+    * Creates an instance of a throwable bottle object.
+    * Initializes the object’s image, position, and animation.
+    * 
+    * @param {number} x - The x-coordinate where the bottle is thrown from.
+    * @param {number} y - The y-coordinate where the bottle is thrown from.
+    * @param {boolean} otherDirection - Determines the direction in which the bottle is thrown.
+    */
     constructor(x, y, otherDirection) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         gameAudios.push(this.throw_bottle_sound);
@@ -67,26 +67,42 @@ class ThrowableObject extends MovableObject {
      * If `true`, the bottle is thrown to the left; otherwise, to the right.
      */
     throw(otherDirection) {
-        this.throw_bottle_sound.play();
-        this.throw_bottle_sound.volume = 0.3;
+        if (localStorage.getItem("gameSound") == "on") {
+            this.throw_bottle_sound.play();
+            this.throw_bottle_sound.volume = 0.3;
+        }
         this.speedY = 20;
         this.applyGravity();
-        this.throwBottleInterval = setInterval(() => {
-            if (this.y > 360) {
-                clearInterval(this.throwBottleInterval);
-                clearInterval(this.rotateBottleInterval);
-                this.hasHit = true;
-                this.setStoppableInterval(() => {
-                    this.playAnimation(this.bottle.IMAGES_BOTTLES);
-                }, 1000);
+        this.playBottleInterval(otherDirection);
+    }
+
+    /**
+     * This function excecutes the Interval for the animations of the bottle.
+     * @param {boolean} otherDirection - Is true if the character is turned left, wrong if in normal direction.
+     */
+    playBottleInterval(otherDirection) {
+        this.throwBottleInterval = setInterval(() => this.bottleAnimations(otherDirection), 25);
+    }
+
+    /**
+     * This function plays the animations of the bottle.
+     * @param {boolean} otherDirection - Is true if the character is turned left, wrong if in normal direction.
+     */
+    bottleAnimations(otherDirection) {
+        if (this.y > 360) {
+            clearInterval(this.throwBottleInterval);
+            clearInterval(this.rotateBottleInterval);
+            this.hasHit = true;
+            this.setStoppableInterval(() => {
+                this.playAnimation(this.bottle.IMAGES_BOTTLES);
+            }, 1000);
+        } else {
+            if (otherDirection === true) {
+                this.x -= 10;
             } else {
-                if (otherDirection === true) {
-                    this.x -= 10;
-                } else {
-                    this.x += 10;
-                }
+                this.x += 10;
             }
-        }, 25);
+        }
     }
 
     /**
@@ -96,8 +112,10 @@ class ThrowableObject extends MovableObject {
     bottleSplash() {
         clearInterval(this.throwBottleInterval);
         clearInterval(this.rotateBottleInterval);
-        this.bottle_splash_sound.play();
-        this.bottle_splash_sound.volume = 0.5;
+        if (localStorage.getItem("gameSound") == "on") {
+            this.bottle_splash_sound.play();
+            this.bottle_splash_sound.volume = 0.5;
+        }
         this.splashBottleInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
         }, 200)
