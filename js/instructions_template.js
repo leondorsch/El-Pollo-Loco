@@ -1,6 +1,6 @@
 /**
  * This function returns the contents of the instructions.
- * @returns 
+ * @returns {HTML} - Contents of the instructions page
  */
 function instructions() {
     return `

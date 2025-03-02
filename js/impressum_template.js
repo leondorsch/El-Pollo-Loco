@@ -1,6 +1,6 @@
 /**
  * This function returns the contents of the impressum.
- * @returns 
+ * @returns {HTML} - Contents of the impressum page
  */
 function impressum() {
     return /*html*/`
