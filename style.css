@@ -84,7 +84,7 @@ canvas {
 .go-home-btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 248px;
+    margin-top: 180px;
 }
 
 .start-btn-container {
@@ -294,6 +294,8 @@ canvas {
     .overlay-turn-device {
         display: flex !important;
     }
+
+
 }
 
 @media only screen and (max-height: 480px) {
@@ -318,6 +320,11 @@ canvas {
     .instructions-overlay {
         width: 100vw;
     }
+
+    .settings-container {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
 }
 
 @media (hover:none) {
@@ -325,5 +332,7 @@ canvas {
         display: flex !important;
         inset: 0;
         width: unset !important;
+        margin-right: 24px;
+        margin-left: 24px;
     }
 }

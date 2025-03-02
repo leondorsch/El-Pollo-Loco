@@ -206,7 +206,9 @@ class Character extends MovableObject {
             }
         }
     }
-
+    /**
+     * This function plays certain audios if the game is over.
+     */
     playGameOverAudio() {
         this.game_over_sound.play();
         this.game_over_sound.volume = 1.;
